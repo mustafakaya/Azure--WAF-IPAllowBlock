@@ -1,0 +1,25 @@
+# WAF Policy Name
+$policyName = ""
+# WAF Policy Resource Group Name
+$RGName = ""
+# IPAddress
+$IPAddress = ""
+
+
+$variable = New-AzApplicationGatewayFirewallMatchVariable -VariableName RemoteAddr 
+$condition = New-AzApplicationGatewayFirewallCondition -MatchVariable $variable -Operator IPMatch -MatchValue $IPAddress  
+
+$rule = New-AzApplicationGatewayFirewallCustomRule `
+   -Name testCustomRule `
+   -Priority 1 `
+   -RuleType MatchRule `
+   -MatchCondition $condition `
+   -Action Allow `
+   -State Enabled
+   
+   
+$policy = Get-AzApplicationGatewayFirewallPolicy -Name $policyName -ResourceGroupName $RGname
+
+$policy.CustomRules.Add($rule)
+
+Set-AzApplicationGatewayFirewallPolicy -InputObject $policy
