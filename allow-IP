@@ -4,13 +4,14 @@ $policyName = ""
 $RGName = ""
 # IPAddress
 $IPAddress = ""
-
+# rule name
+$ruleName = ""
 
 $variable = New-AzApplicationGatewayFirewallMatchVariable -VariableName RemoteAddr 
 $condition = New-AzApplicationGatewayFirewallCondition -MatchVariable $variable -Operator IPMatch -MatchValue $IPAddress  
 
 $rule = New-AzApplicationGatewayFirewallCustomRule `
-   -Name testCustomRule `
+   -Name $ruleName `
    -Priority 1 `
    -RuleType MatchRule `
    -MatchCondition $condition `
